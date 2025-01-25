@@ -1,5 +1,5 @@
 ![logo](https://github.com/user-attachments/assets/1392e8f6-083a-4b8b-8c88-b227d3edfdba)
-# Maize Plant Architecture Phenotyping System (Giraffe)
+# Giraffe (Maize Plant Architecture Phenotyping System)
 > DIY ultra-affordable and accurate maize plant architecture phenotyping systems working at single-plant resolution in field conditions
 
 ## Features
