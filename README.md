@@ -15,7 +15,7 @@
 2. **Install dependencies (Only when you need to use CLI):**
 
     ```bash
-    cd Maize-Phenotyping/
+    cd Giraffe/
     pip install -r requirements.txt
     ```
 
