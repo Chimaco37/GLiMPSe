@@ -10,7 +10,7 @@
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/Chimaco37/Maize-Phenotyping.git
+    git clone https://github.com/Chimaco37/Giraffe.git
     ```
 2. **Install dependencies (Only when you need to use CLI):**
 
