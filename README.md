@@ -41,7 +41,7 @@
         ```bash
         cd Giraffe/
         unzip Giraffe_Models.zip
-        cp Models/* models/
+        cp  Giraffe_Models/* models/
         ```
     
     - **For Command Line Interface (CLI) usage:**
