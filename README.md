@@ -21,37 +21,33 @@
 
 3. **Download necessary models:**  
 
-    First, download the required model files from the [Models Figshare Repository](https://doi.org/10.6084/m9.figshare.26282731).
-    
+    First, download the Giraffe.exe and required model files from the [Giraffe_Figshare Repository](https://doi.org/10.6084/m9.figshare.28330349).
+
+    - **Placement of Giraffe software:**
+   
+      After downloading, place the GUI files in the respective ./GUI directory with these steps:
+  
+        ```
+        cd Giraffe/
+        mv /Path/To/Giraffe.exe ./
+        ```
+        
     **Placement of model files:**
-    
-    - **For the GUI of the ear phenotyping system:**
+   
+    - **For the GUI of the phenotyping system:**
     
       Place the downloaded model files in the specified directory with the following steps:
 
         ```bash
-        cd ear/GUI/
-        unzip Models.zip
-        cp Models/Ear_Models/* models/
+        cd Giraffe/
+        unzip Giraffe_Models.zip
+        cp Models/* models/
         ```
     
     - **For Command Line Interface (CLI) usage:**
    
       You can place the models in any location that is convenient for you.
-
-4. **Download GUIs:**
-
-    Download the GUI files from the [GUIs Figshare Repository](https://doi.org/10.6084/m9.figshare.28330349).
-
-    - **Placement of GUI files:**
-   
-      After downloading, place the GUI files in the respective ./GUI directory with these steps:
-  
-        ```
-        cd leaf/GUI/
-        unzip GUIs.zip
-        cp GUIs/Lizard.exe ./
-        ```
+      
 
 ## GUI Usage
 ### 🦒The 'Giraffe' System
