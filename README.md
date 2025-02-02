@@ -53,14 +53,59 @@
 ### 🦒The 'Giraffe' System
 ![image](https://github.com/user-attachments/assets/d5c41f7a-54e7-4df4-a962-ba708dc902aa)
 
-- **Video Process:**  
-  Click the "Video Process" button, select the folder containing the videos and the heights and folder for processed pictures respectively, then select the threads number based on your device.  
-  The system will then process the videos and generate maize plant projection images.
+## Key Functions
 
-- **Model Inference:**  
-  Click the "Model Inference" button, select the device (GPU/CPU) and the folder containing the projection pictures/height files/model folder/output results respectively.  
-  The system will then process the maize plant projection images, and analyze the results to generate phenotypic data. 
+### 1. Video Processing
+- **Purpose:** Process raw videos and corresponding height data to generate maize plant projection images.
+- **Usage:**
+  1. Click the **Video Process** button.
+  2. **Confirm the operation** when prompted.
+  3. Select the following folders:
+     - **Input Videos:** Folder containing raw video files (e.g., `.mp4`, `.avi`).
+     - **Height Files:** Folder with corresponding height data.
+     - **Projection Output:** Destination folder for the generated projection images.
+  4. Specify the **number of threads** based on your device's capabilities.
+  5. The system processes the videos accordingly.
 
-- **Manual Adjust Results:**  
-  All the 
+---
 
+### 2. Model Inference
+- **Purpose:** Run the model to analyze projection images and height data, then generate phenotypic measurements.
+- **Usage:**
+  1. Click the **Model Inference** button.
+  2. **Confirm the operation** when prompted.
+  3. Choose the **device** for inference (GPU or CPU).
+  4. Select the following folders:
+     - **Height Files:** Folder containing the height data.
+     - **Projection Images:** Folder containing the processed projection images.
+     - **Model Folder:** Directory where the model files are stored.
+     - **Output Folder:** Destination for the generated phenotypic data.
+  5. The system then runs inference and outputs the phenotypic measurements.
+
+---
+
+### 3. Manual Adjustment of Results
+- **Purpose:** Fine-tune model predictions by manually adjusting key phenotypic positions on images.
+- **Features:**
+  - **Colored Lines Indicate:**
+    - **Green:** Tassel height
+    - **Blue:** Leaf heights
+    - **Red:** Ear heights
+- **Usage:**
+  - **Drag:** Use the **left mouse button** to drag and adjust a line.
+  - **Add/Remove:** **Double-click** the **left mouse button** to add or remove a line (depending on whether a line exists at the clicked location).
+  - **Change Type:** **Single-click** the **right mouse button** to change the line’s color (i.e., its type).
+
+---
+
+### 4. Video and Image Control
+- **Video Playback:**
+  - **Play/Pause:** Press the **Space Bar** or **single click** on the video.
+  - **Frame Navigation:**  
+    - Press **D/d** for the previous frame.
+    - Press **F/f** for the next frame.
+- **Image Navigation:**
+  - **Zoom In/Out:** Use the **mouse wheel**.
+  - **Drag:** Hold and drag the image using the **left mouse button**.
+
+---
