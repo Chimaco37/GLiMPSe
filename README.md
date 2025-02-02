@@ -51,7 +51,15 @@
 
 ## GUI Usage
 ### 🦒The 'Giraffe' System
-![image](https://github.com/user-attachments/assets/6d37a213-d0c5-4445-9cfa-335f4e5c00e6)
+![image](https://github.com/user-attachments/assets/d5c41f7a-54e7-4df4-a962-ba708dc902aa)
+
+- **Model Inference:**  
+  Click the "Model Inference" button, select the folder containing the original videos and the folder for output results.  
+  The system will then process the videos and generate phenotypic data.
+
+- **Model Inference:**  
+  Click the "Model Inference" button, select the folder containing the original videos and the folder for output results.  
+  The system will then process the videos and generate phenotypic data.
 
 - **Model Inference:**  
   Click the "Model Inference" button, select the folder containing the original videos and the folder for output results.  
