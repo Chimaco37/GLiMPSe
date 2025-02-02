@@ -41,7 +41,7 @@
 
 4. **Download GUIs:**
 
-    Download the GUI files from the [GUIs Figshare Repository](https://doi.org/10.6084/m9.figshare.26363107).
+    Download the GUI files from the [GUIs Figshare Repository](https://doi.org/10.6084/m9.figshare.28330349).
 
     - **Placement of GUI files:**
    
