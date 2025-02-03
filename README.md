@@ -67,9 +67,9 @@
   4. Specify the **number of threads** based on your device's capabilities.
   5. The system processes the videos accordingly.
 - **Notes:**
-  - **After processing, the original video and height files will be backed up in a folder named raw within their original directories.**
-  - **Processed files will be stored in a processed folder.**
-  - **Ensure that the height files in the processed folder are used for model inference, data analysis.**
+  - **After processing, the original video and height files will be backed up in a folder named `raw` within their original directories.**
+  - **Processed files will be stored in a `processed` folder.**
+  - **Ensure that the height files in the `processed` folder are used for model inference, data analysis.**
 ---
 
 ### 2. Model Inference
