@@ -66,7 +66,8 @@
      - **Projection Output:** Destination folder for the generated projection images.
   4. Specify the **number of threads** based on your device's capabilities.
   5. The system processes the videos accordingly.
-
+- **Notes:**
+  After processing, original video and height files would be 
 ---
 
 ### 2. Model Inference
