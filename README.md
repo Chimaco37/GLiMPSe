@@ -1,5 +1,5 @@
 ![plant_architecture_logo](https://github.com/user-attachments/assets/7d702844-b6a5-44bb-8886-d42646709528)
-# Giraffe (Maize Plant Architecture Phenotyping System)
+# GLiMPSe (**G**iraffe + **Li**zard **M**aize **P**henotyping **S**yst**e**m )
 > DIY ultra-affordable and accurate maize plant architecture phenotyping systems working at single-plant resolution in field conditions
 
 ## Features
