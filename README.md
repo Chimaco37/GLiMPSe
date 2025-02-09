@@ -25,7 +25,7 @@
 
     - **Placement of Giraffe software:**
    
-      After downloading, place the GUI files in the respective ./GUI directory with these steps:
+      After downloading, place the GUI files in the respective directory with these steps:
   
         ```
         cd GLiMPSe/
