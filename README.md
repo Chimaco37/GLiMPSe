@@ -10,12 +10,12 @@
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/Chimaco37/Giraffe.git
+    git clone https://github.com/Chimaco37/GLiMPSe.git
     ```
 2. **Install dependencies (Only when you need to use CLI):**
 
     ```bash
-    cd Giraffe/
+    cd GLiMPSe/
     pip install -r requirements.txt
     ```
 
@@ -28,7 +28,7 @@
       After downloading, place the GUI files in the respective ./GUI directory with these steps:
   
         ```
-        cd Giraffe/
+        cd GLiMPSe/
         mv /Path/To/Giraffe.exe ./
         ```
         
@@ -39,7 +39,7 @@
       Place the downloaded model files in the specified directory with the following steps:
 
         ```bash
-        cd Giraffe/
+        cd GLiMPSe/
         unzip Giraffe_Models.zip
         cp  Giraffe_Models/* models/
         ```
