@@ -111,4 +111,24 @@
   - **Zoom In/Out:** Use the **mouse wheel**.
   - **Drag:** Hold and drag the image using the **left mouse button**.
 
----
+
+- **Model training:**
+
+```bash
+yolo segment train data=/path/to/your/plant_architecture/dataset/data.yaml model=/path/to/your/yolo11x-seg.pt epochs=300 patience=100 seed=2 batch=16 imgsz=1080 device=0,1,2,3 name=plant_architecture_training project=/directory/to/save/results
+```
+
+- **Model inference:**
+
+```bash
+yolo segment predict model=Plant_architecture.pt source=./images save_txt=True save=True show_labels=True show_conf=False boxes=True conf=0.5 iou=0.5 imgsz=1440 agnostic_nms=True retina_masks=True device=0 name=prediction project=/directory/to/save/results
+```
+- **Output analysis:**
+```
+python Model_output_analysis.py -l LABEL_FOLDER -d DISTANCE_FOLDER -o OUTPUT_PATH
+
+optional arguments:
+  -l: Path to the model output label folder (default is ./labels/)
+  -d: Path to the corresponding distance folder of the videos (default is ./distances/)
+  -o: Analyzed results output folder (default is ./)
+```
