@@ -115,7 +115,7 @@
 - **Model training:**
 
 ```bash
-yolo segment train data=/path/to/your/plant_architecture/dataset/data.yaml model=/path/to/your/yolo11x-seg.pt epochs=300 patience=100 seed=2 batch=16 imgsz=1080 device=0,1,2,3 name=plant_architecture_training project=/directory/to/save/results
+yolo segment train data=/path/to/your/plant_architecture/dataset/data.yaml model=/path/to/your/yolo11x-seg.pt epochs=300 patience=50 seed=2 batch=16 imgsz=1080 device=0,1,2,3 name=plant_architecture_training project=/directory/to/save/results
 ```
 
 - **Model inference:**
