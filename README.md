@@ -121,7 +121,7 @@ yolo segment train data=/path/to/your/plant_architecture/dataset/data.yaml model
 - **Model inference:**
 
 ```bash
-yolo segment predict model=Plant_architecture.pt source=./images save_txt=True save=True show_labels=True show_conf=False boxes=True conf=0.5 iou=0.5 imgsz=1440 agnostic_nms=True retina_masks=True device=0 name=prediction project=/directory/to/save/results
+yolo segment predict model=Plant_architecture.pt source=./images save_txt=True save=True show_labels=True show_conf=False show_boxes=True conf=0.5 iou=0.5 imgsz=1440 agnostic_nms=True retina_masks=True device=0 name=prediction project=/directory/to/save/results
 ```
 - **Output analysis:**
 ```
