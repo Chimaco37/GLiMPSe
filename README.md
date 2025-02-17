@@ -132,3 +132,5 @@ optional arguments:
   -d: Path to the corresponding distance folder of the videos (default is ./distances/)
   -o: Analyzed results output folder (default is ./)
 ```
+
+![image](https://github.com/user-attachments/assets/2604ccca-5649-4854-bc8e-29d55aba6cba)
