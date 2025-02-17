@@ -51,7 +51,7 @@
 
 ## GUI Usage
 ### 🦒The 'Giraffe' System
-![image](https://github.com/user-attachments/assets/d5c41f7a-54e7-4df4-a962-ba708dc902aa)
+![image](https://github.com/user-attachments/assets/4b4dcbea-ca2b-4f3c-873c-e79b361ec5c9)
 
 ## Key Functions
 
