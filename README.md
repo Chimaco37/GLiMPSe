@@ -12,14 +12,8 @@
     ```bash
     git clone https://github.com/Chimaco37/GLiMPSe.git
     ```
-2. **Install dependencies (Only when you need to use CLI):**
-
-    ```bash
-    cd GLiMPSe/
-    pip install -r requirements.txt
-    ```
-
-3. **Download the software and models:**  
+    
+2. **Download the software and models:**  
 
     First, download the Giraffe.exe and required model files from the [Giraffe_Figshare Repository](https://doi.org/10.6084/m9.figshare.28330349).
 
@@ -133,4 +127,35 @@ optional arguments:
   -o: Analyzed results output folder (default is ./)
 ```
 
+### 🦎The 'Lizard' System
+
 ![image](https://github.com/user-attachments/assets/2604ccca-5649-4854-bc8e-29d55aba6cba)
+
+- **Model training for marker and leaf:**
+
+```bash
+yolo segment train data=/path/to/your/marker/dataset/data.yaml model=model=/path/to/your/marker/model.pt epochs=200 batch=32 device=0 name=marker_model_training
+yolo segment train data=/path/to/your/leaf/dataset/data.yaml model=model=/path/to/your/leaf/model.pt epochs=200 batch=32 device=0 name=leaf_model_training
+```
+
+- **Marker Segmentation:**
+
+```
+yolo task=segment mode=predict model=/path/to/marker.pt source=/path/to/your/original/image/folder conf=0.5 show_labels=True show_conf=False boxes=True max_det=4 save_txt=True device=0 name=marker
+```
+- **Image Undistortion:**
+```
+python Image_undistortion.py -i IMAGE_FOLDER -l LABEL_FOLDER -o OUTPUT_UNDISTORTED_IMAGE_PATH
+
+optional arguments:
+  -i: Path to the original image folder (default is ./images/)
+  -l: Path to the marker model output label folder (default is ./marker/labels/)
+  -o: Output undistorted image folder (default is ./undistorted/)
+```
+- **Marker Segmentation:**
+```
+yolo task=segment mode=predict model=/path/to/leaf.pt source=/path/to/your/undistorted/image/folder conf=0.5 show_labels=True show_conf=False boxes=True max_det=1 save_txt=True device=0 name=leaf
+```
+- **Leaf width calculation:**
+```
+python Leaf_model_output_anaylsis.py -l LABEL_FOLDER -o OUTPUT_PATH
