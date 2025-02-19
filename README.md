@@ -12,8 +12,15 @@
     ```bash
     git clone https://github.com/Chimaco37/GLiMPSe.git
     ```
+
+2. **Install dependencies (Only when you need to use CLI):**
+
+    ```bash
+    cd GLiMPSe/
+    pip install -r requirements.txt
+    ```
     
-2. **Download the software and models:**  
+3. **Download the software and models:**  
 
     First, download the Giraffe.exe and required model files from the [Giraffe_Figshare Repository](https://doi.org/10.6084/m9.figshare.28330349).
 
