@@ -22,15 +22,22 @@
     
 3. **Download the software and models:**  
 
-    First, download the Giraffe.exe and required model files from the [Giraffe_Figshare Repository](https://doi.org/10.6084/m9.figshare.28330349).
+    First, download the Giraffe.exe and Lizard.exe from the [GUIs_Figshare Repository](https://doi.org/10.6084/m9.figshare.28330349).
+   
+    Second, download the required model files from [Models_Figshare Repository](https://doi.org/10.6084/m9.figshare.26282731).
 
-    - **Placement of Giraffe software:**
+    - **Placement of software:**
    
       After downloading, place the GUI files in the respective directory with these steps:
   
         ```
-        cd GLiMPSe/
+        cd GLiMPSe/Giraffe/
         mv /Path/To/Giraffe.exe ./
+        ```
+        or 
+        ```
+        cd GLiMPSe/Lizard/
+        mv /Path/To/Lizard.exe ./
         ```
         
     **Placement of model files:**
@@ -40,10 +47,17 @@
       Place the downloaded model files in the specified directory with the following steps:
 
         ```bash
-        cd GLiMPSe/
+        cd GLiMPSe/Giraffe
         unzip Giraffe_Models.zip
         cp  Giraffe_Models/* models/
         ```
+        or 
+        ```bash
+        cd GLiMPSe/Lizard
+        unzip Lizard_Models.zip
+        cp  Lizard_Models/* models/
+        ```
+        
     
     - **For Command Line Interface (CLI) usage:**
    
@@ -57,14 +71,14 @@
 ## Key Functions
 
 ### 1. Video Processing
-- **Purpose:** Process raw videos and corresponding height data to generate maize plant projection images.
+- **Purpose:** Process raw videos and corresponding height data to generate maize plant composite images.
 - **Usage:**
   1. Click the **Video Process** button.
   2. **Confirm the operation** when prompted.
   3. Select the following folders:
      - **Input Videos:** Folder containing raw video files (e.g., `.mp4`, `.avi`).
      - **Height Files:** Folder with corresponding height data.
-     - **Projection Output:** Destination folder for the generated projection images.
+     - **Composition Output:** Destination folder for the generated composite images.
   4. Specify the **number of threads** based on your device's capabilities.
   5. The system processes the videos accordingly.
 - **Notes:**
@@ -74,14 +88,14 @@
 ---
 
 ### 2. Model Inference
-- **Purpose:** Run the model to analyze projection images and height data, then generate phenotypic measurements.
+- **Purpose:** Run the model to analyze composite images and height data, then generate phenotypic measurements.
 - **Usage:**
   1. Click the **Model Inference** button.
   2. **Confirm the operation** when prompted.
   3. Choose the **device** for inference (GPU or CPU).
   4. Select the following folders:
      - **Height Files:** Folder containing the height data.
-     - **Projection Images:** Folder containing the processed projection images.
+     - **Composite Images:** Folder containing the processed composite images.
      - **Model Folder:** Directory where the model files are stored.
      - **Output Folder:** Destination for the generated phenotypic data.
   5. The system then runs inference and outputs the phenotypic measurements.
@@ -124,6 +138,19 @@ yolo segment train data=/path/to/your/plant_architecture/dataset/data.yaml model
 ```bash
 yolo segment predict model=Plant_architecture.pt source=./images save_txt=True save=True show_labels=True show_conf=False show_boxes=True conf=0.5 iou=0.5 imgsz=1440 agnostic_nms=True retina_masks=True device=0 name=prediction project=/directory/to/save/results
 ```
+
+- **Video Preprocessing:**
+```
+python Convert_videos_to_composite.py -v VIDEO_FOLDER -p PARAMETER_FOLDER -o OUTPUT_PATH -c CORES_NUMBER -i PYTHON_INTERPRETER
+
+optional arguments:
+  -v: Path to the original video folder (default is ./videos/)
+  -p: Path to the image undistortion parameter folder (default is ./image_process/)
+  -o: Output undistorted image folder (default is ./undistorted/)
+  -c: Number of cores used for parallel processing (default is 5)
+  -i: Path to your python interpreter
+```
+
 - **Output analysis:**
 ```
 python Model_output_analysis.py -l LABEL_FOLDER -d DISTANCE_FOLDER -o OUTPUT_PATH
@@ -137,12 +164,26 @@ optional arguments:
 ### 🦎The 'Lizard' System
 
 ![image](https://github.com/user-attachments/assets/2604ccca-5649-4854-bc8e-29d55aba6cba)
+## Key Functions
 
+###  Model Inference
+- **Purpose:** Run the model to analyze leaf images and generate leaf width measurements.
+- **Usage:**
+  1. Click the **Model Inference** button.
+  2. **Confirm the operation** when prompted.
+  3. Choose the **device** for inference (GPU or CPU).
+  4. Select the following folders:
+     - **Image Files:** Folder containing the leaf images.
+     - **Model Folder:** Directory where the model files are stored.
+     - **Output Folder:** Destination for the generated phenotypic data.
+  5. The system then runs inference and outputs the phenotypic measurements.
+
+---
 - **Model training for marker and leaf:**
 
 ```bash
-yolo segment train data=/path/to/your/marker/dataset/data.yaml model=model=/path/to/your/marker/model.pt epochs=200 batch=32 device=0 name=marker_model_training
-yolo segment train data=/path/to/your/leaf/dataset/data.yaml model=model=/path/to/your/leaf/model.pt epochs=200 batch=32 device=0 name=leaf_model_training
+yolo segment train data=/path/to/your/marker/dataset/data.yaml model=model=/path/to/your/marker/model.pt epochs=300 batch=32 device=0 name=marker_model_training
+yolo segment train data=/path/to/your/leaf/dataset/data.yaml model=model=/path/to/your/leaf/model.pt epochs=300 batch=32 device=0 name=leaf_model_training
 ```
 
 - **Marker Segmentation:**
@@ -166,3 +207,8 @@ yolo task=segment mode=predict model=/path/to/leaf.pt source=/path/to/your/undis
 - **Leaf width calculation:**
 ```
 python Leaf_model_output_anaylsis.py -l LABEL_FOLDER -o OUTPUT_PATH
+
+optional arguments:
+  -l: Path to the leaf model output label folder (default is ./leaf/labels/)
+  -o: Analyzed results output folder (default is ./)
+```
