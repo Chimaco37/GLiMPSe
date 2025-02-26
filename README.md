@@ -127,6 +127,26 @@
   - **Drag:** Hold and drag the image using the **left mouse button**.
 
 
+### 🦎The 'Lizard' System
+
+![image](https://github.com/user-attachments/assets/2604ccca-5649-4854-bc8e-29d55aba6cba)
+## Key Functions
+
+###  Model Inference
+- **Purpose:** Run the model to analyze leaf images and generate leaf width measurements.
+- **Usage:**
+  1. Click the **Model Inference** button.
+  2. **Confirm the operation** when prompted.
+  3. Choose the **device** for inference (GPU or CPU).
+  4. Select the following folders:
+     - **Image Files:** Folder containing the leaf images.
+     - **Model Folder:** Directory where the model files are stored.
+     - **Output Folder:** Destination for the generated phenotypic data.
+  5. The system then runs inference and outputs the phenotypic measurements.
+
+## GUI Usage
+
+### 🦒The 'Giraffe' System
 - **Model training:**
 
 ```bash
@@ -161,23 +181,8 @@ optional arguments:
   -o: Analyzed results output folder (default is ./)
 ```
 
+
 ### 🦎The 'Lizard' System
-
-![image](https://github.com/user-attachments/assets/2604ccca-5649-4854-bc8e-29d55aba6cba)
-## Key Functions
-
-###  Model Inference
-- **Purpose:** Run the model to analyze leaf images and generate leaf width measurements.
-- **Usage:**
-  1. Click the **Model Inference** button.
-  2. **Confirm the operation** when prompted.
-  3. Choose the **device** for inference (GPU or CPU).
-  4. Select the following folders:
-     - **Image Files:** Folder containing the leaf images.
-     - **Model Folder:** Directory where the model files are stored.
-     - **Output Folder:** Destination for the generated phenotypic data.
-  5. The system then runs inference and outputs the phenotypic measurements.
-
 ---
 - **Model training for marker and leaf:**
 
