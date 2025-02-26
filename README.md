@@ -161,14 +161,13 @@ yolo segment predict model=Plant_architecture.pt source=./images save_txt=True s
 
 - **Video Preprocessing:**
 ```
-python Convert_videos_to_composite.py -v VIDEO_FOLDER -p PARAMETER_FOLDER -o OUTPUT_PATH -c CORES_NUMBER -i PYTHON_INTERPRETER
+python Video_process.py -v VIDEO_FOLDER -h HEIGHT_FOLDER -c CORES_NUMBER -o OUTPUT_FOLDER
 
 optional arguments:
   -v: Path to the original video folder (default is ./videos/)
-  -p: Path to the image undistortion parameter folder (default is ./image_process/)
-  -o: Output undistorted image folder (default is ./undistorted/)
+  -h: Path to the height folder (default is ./heights/)
   -c: Number of cores used for parallel processing (default is 5)
-  -i: Path to your python interpreter
+  -o: Output image folder (default is ./composition/)
 ```
 
 - **Output analysis:**
