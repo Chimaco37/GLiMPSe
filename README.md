@@ -173,11 +173,11 @@ optional arguments:
 
 - **Output analysis:**
 ```
-python Model_output_analysis.py -l LABEL_FOLDER -d DISTANCE_FOLDER -o OUTPUT_PATH
+python Model_output_analysis.py -l LABEL_FOLDER -h HEIGHT_FOLDER -o OUTPUT_PATH
 
 optional arguments:
   -l: Path to the model output label folder (default is ./labels/)
-  -d: Path to the corresponding distance folder of the videos (default is ./distances/)
+  -d: Path to the corresponding height folder of the videos (default is ./heights/)
   -o: Analyzed results output folder (default is ./)
 ```
 
