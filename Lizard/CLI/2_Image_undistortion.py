@@ -57,9 +57,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Undistort the original leaf image")
 
     # Add arguments
-    parser.add_argument('-i', '--image_folder', default='./images/', type=str, required=True, help='Path to the original image folder')
-    parser.add_argument('-l', '--label_folder', default='./marker/labels/', type=str, required=True, help='Path to the label folder')
-    parser.add_argument('-o', '--output_undistorted_image_path', default='./undistorted/', type=str, required=True, help='Output undistorted image path')
+    parser.add_argument('-i', '--image_folder', default='./images/', type=str, required=False, help='Path to the original image folder')
+    parser.add_argument('-l', '--label_folder', default='./marker/labels/', type=str, required=False, help='Path to the label folder')
+    parser.add_argument('-o', '--output_undistorted_image_path', default='./undistorted/', type=str, required=False, help='Output undistorted image path')
 
     # Parse the arguments
     args = parser.parse_args()

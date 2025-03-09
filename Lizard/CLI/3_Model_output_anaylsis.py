@@ -11,8 +11,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Analyze leaf segmentation model output data")
 
     # 添加参数
-    parser.add_argument('-l', '--label_folder', default='./leaf/labels/', type=str, required=True, help='Path to the label folder')
-    parser.add_argument('-o', '--output_path', default='./', type=str, required=True, help='Output file path')
+    parser.add_argument('-l', '--label_folder', default='./leaf/labels/', type=str, required=False, help='Path to the label folder')
+    parser.add_argument('-o', '--output_path', default='./', type=str, required=False, help='Output file path')
 
     # 解析参数
     args = parser.parse_args()
