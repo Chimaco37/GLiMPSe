@@ -223,9 +223,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Analyze plant architecture model output results")
 
     # Add arguments
-    parser.add_argument('-l', '--label_folder', default='./labels/', type=str, required=True, help='Path to the label folder')
-    parser.add_argument('-h', '--height_folder', default='./heights/', type=str, required=True, help='Path to the height folder')
-    parser.add_argument('-o', '--output_path', default='./', type=str, required=True, help='Output file path')
+    parser.add_argument('-l', '--label_folder', default='./labels/', type=str, required=False, help='Path to the label folder')
+    parser.add_argument('-d', '--height_folder', default='./heights/', type=str, required=False, help='Path to the height folder')
+    parser.add_argument('-o', '--output_path', default='./output/', type=str, required=False, help='Output file path')
 
     # Parse the arguments
     args = parser.parse_args()

@@ -24,7 +24,7 @@ def delete_file(files):
 def process_file(full_run_with_extension, height_file, pic_path, target_video_path, target_height_path):
     # Remove file extension
     run = os.path.basename(full_run_with_extension).split('.')[0]
-    full_run = os.path.join(os.path.dirname(full_run_with_extension), run)
+    full_run = os.path.normpath(os.path.join(os.path.dirname(full_run_with_extension), run))
     os.makedirs(pic_path, exist_ok=True)
 
     line = f"Processing started for {run}"
@@ -32,7 +32,7 @@ def process_file(full_run_with_extension, height_file, pic_path, target_video_pa
 
     # Check if the height file exists
     if not os.path.exists(height_file):
-        line = f"Skipping {run} - distance file does not exist"
+        line = f"Skipping {run} - height file does not exist"
         print(line)
         return
 
@@ -138,7 +138,7 @@ def process_file(full_run_with_extension, height_file, pic_path, target_video_pa
     print(line)
 
 def process_video_thread(video_path, height_path, projection_path, max_workers):
-    smoothed_height_path = os.path.join(video_path, 'smoothed')
+    smoothed_height_path = os.path.join(height_path, 'smoothed')
     processed_height_path = os.path.join(height_path, 'processed')
 
     all_video_folder = video_path
@@ -185,29 +185,7 @@ def process_video_thread(video_path, height_path, projection_path, max_workers):
         line = "All video processing complete!"
         print(line)
 
-
-if __name__ == "__main__":
-    # Create the parser
-    parser = argparse.ArgumentParser(description="Process the plant architecture video into composite images")
-
-    # Add arguments
-    parser.add_argument('-v', '--video_folder', default='./videos/', type=str, required=True,
-                        help='Path to the video folder')
-    parser.add_argument('-h', '--height_folder', default='./heights/', type=str, required=True,
-                        help='Path to the height folder')
-    parser.add_argument('-c', '--thread', default=5, type=int, required=True,
-                        help='Number of cores used for parallel processing')
-    parser.add_argument('-o', '--output_folder', default='./composition/', type=str, required=True, help='Output folder')
-
-    # Parse the arguments
-    args = parser.parse_args()
-
-    max_workers = args.thread
-
-    # 处理视频之前，先对高度信息文件进行筛选
-    filter_heights(args.height_folder)
-    process_video_thread(args.video_folder, args.height_folder, args.output_folder, max_workers)
-
+    run()
 
 ################################################## 高度信息筛查部分 #######################################################
 def check_abnormal_file(data, file_name):
@@ -338,4 +316,24 @@ def filter_heights(height_path):
     line = f"All smoothed height files are saved to : {smoothed_height_path}."
     print(line)
 
+if __name__ == "__main__":
+    # Create the parser
+    parser = argparse.ArgumentParser(description="Process the plant architecture video into composite images")
 
+    # Add arguments
+    parser.add_argument('-v', '--video_folder', default='./videos/', type=str, required=False,
+                        help='Path to the video folder')
+    parser.add_argument('-d', '--height_folder', default='./heights/', type=str, required=False,
+                        help='Path to the height folder')
+    parser.add_argument('-c', '--thread', default=5, type=int, required=False,
+                        help='Number of cores used for parallel processing')
+    parser.add_argument('-o', '--output_folder', default='./images/', type=str, required=False, help='Output folder')
+
+    # Parse the arguments
+    args = parser.parse_args()
+
+    max_workers = args.thread
+
+    # 处理视频之前，先对高度信息文件进行筛选
+    filter_heights(args.height_folder)
+    process_video_thread(args.video_folder, args.height_folder, args.output_folder, max_workers)
