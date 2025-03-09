@@ -145,8 +145,8 @@
   5. The system then runs inference and outputs the phenotypic measurements.
 
 ## GUI Usage
-**Important: Before executing the scripts, please ensure that you have installed ffmpeg (version 7.0.1) and ImageMagick (version 7.1.1), and that both are added to your system’s PATH.
-**
+**Important: Before executing the scripts, please ensure that you have installed ffmpeg (version 7.0.1) and ImageMagick (version 7.1.1), and that both are added to your system’s PATH.**
+
 ### 🦒The 'Giraffe' System
 - **Model training:**
 
