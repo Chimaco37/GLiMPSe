@@ -145,7 +145,8 @@
   5. The system then runs inference and outputs the phenotypic measurements.
 
 ## GUI Usage
-
+**Important: Before executing the scripts, please ensure that you have installed ffmpeg (version 7.0.1) and ImageMagick (version 7.1.1), and that both are added to your system’s PATH.
+**
 ### 🦒The 'Giraffe' System
 - **Model training:**
 
@@ -161,13 +162,13 @@ yolo segment predict model=Plant_architecture.pt source=./images save_txt=True s
 
 - **Video Preprocessing:**
 ```
-python Video_process.py -v VIDEO_FOLDER -h HEIGHT_FOLDER -c CORES_NUMBER -o OUTPUT_FOLDER
+python 2_Video_process.py -v VIDEO_FOLDER -d HEIGHT_FOLDER -c CORES_NUMBER -o OUTPUT_FOLDER
 
 optional arguments:
   -v: Path to the original video folder (default is ./videos/)
   -h: Path to the height folder (default is ./heights/)
   -c: Number of cores used for parallel processing (default is 5)
-  -o: Output image folder (default is ./composition/)
+  -o: Output image folder (default is ./images/)
 ```
 
 - **Output analysis:**
@@ -177,7 +178,7 @@ python Model_output_analysis.py -l LABEL_FOLDER -h HEIGHT_FOLDER -o OUTPUT_PATH
 optional arguments:
   -l: Path to the model output label folder (default is ./labels/)
   -d: Path to the corresponding height folder of the videos (default is ./heights/)
-  -o: Analyzed results output folder (default is ./)
+  -o: Analyzed results output folder (default is ./output/)
 ```
 
 
@@ -197,7 +198,7 @@ yolo task=segment mode=predict model=/path/to/marker.pt source=/path/to/your/ori
 ```
 - **Image Undistortion:**
 ```
-python Image_undistortion.py -i IMAGE_FOLDER -l LABEL_FOLDER -o OUTPUT_UNDISTORTED_IMAGE_PATH
+python 2_Image_undistortion.py -i IMAGE_FOLDER -l LABEL_FOLDER -o OUTPUT_UNDISTORTED_IMAGE_PATH
 
 optional arguments:
   -i: Path to the original image folder (default is ./images/)
@@ -210,7 +211,7 @@ yolo task=segment mode=predict model=/path/to/leaf.pt source=/path/to/your/undis
 ```
 - **Leaf width calculation:**
 ```
-python Leaf_model_output_anaylsis.py -l LABEL_FOLDER -o OUTPUT_PATH
+python 3_Model_output_anaylsis.py -l LABEL_FOLDER -o OUTPUT_PATH
 
 optional arguments:
   -l: Path to the leaf model output label folder (default is ./leaf/labels/)
