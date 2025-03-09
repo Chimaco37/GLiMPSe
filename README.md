@@ -113,7 +113,8 @@
   - **Drag:** Use the **left mouse button** to drag and adjust a line.
   - **Add/Remove:** **Double-click** the **left mouse button** to add or remove a line (depending on whether a line exists at the clicked location).
   - **Change Type:** **Single-click** the **right mouse button** to change the line’s color (i.e., its type).
-
+- **Notes:**
+  - **When you fine-tunning the model predictions, make sure the results excel is not activated (closed/not using).**
 ---
 
 ### 4. Video and Image Control
