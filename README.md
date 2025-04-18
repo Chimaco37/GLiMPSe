@@ -173,7 +173,7 @@ optional arguments:
 
 - **Output analysis:**
 ```
-python Model_output_analysis.py -l LABEL_FOLDER -h HEIGHT_FOLDER -o OUTPUT_PATH
+python 3_Model_output_analysis.py -l LABEL_FOLDER -d HEIGHT_FOLDER -o OUTPUT_PATH
 
 optional arguments:
   -l: Path to the model output label folder (default is ./labels/)
