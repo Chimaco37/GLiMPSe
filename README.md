@@ -163,7 +163,7 @@ yolo segment predict model=Plant_architecture.pt source=./images save_txt=True s
 
 - **Video Preprocessing:**
 ```
-python 2_Video_process.py -v VIDEO_FOLDER -d HEIGHT_FOLDER -c CORES_NUMBER -o OUTPUT_FOLDER
+python 2_Video_process.py -v VIDEO_FOLDER -d HEIGHT_FOLDER -m MODEL_FOLDER-c CORES_NUMBER -o OUTPUT_FOLDER
 
 optional arguments:
   -v: Path to the original video folder (default is ./videos/)
