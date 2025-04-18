@@ -77,8 +77,10 @@ def apply_alpha_mask(pixel_paths, template_path, output_pattern):
 
 def process_file(full_run_with_extension, height_file, pic_path, target_video_path, target_height_path, model_path):
     # Remove file extension
-    run = os.path.basename(full_run_with_extension).split('.')[0]
-    full_run = os.path.normpath(os.path.join(os.path.dirname(full_run_with_extension), run))
+    full_path = Path(full_run_with_extension)
+    run = full_path.stem
+    full_run = full_path.parent / run
+
     os.makedirs(pic_path, exist_ok=True)
 
     FFMPEG = Path(model_path) / "ffmpeg.exe"
