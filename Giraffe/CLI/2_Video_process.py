@@ -10,6 +10,7 @@ import statistics
 from collections import Counter
 from PIL import Image
 import argparse
+from pathlib import Path
 
 def run_command(command):
     """隐藏终端窗口运行命令"""
@@ -21,11 +22,67 @@ def delete_file(files):
     for file in files_to_delete:
         os.remove(file)
 
-def process_file(full_run_with_extension, height_file, pic_path, target_video_path, target_height_path):
+# 创建透明度模板
+def create_template(row_width, middle_line_index, template_path):
+    width = 640
+    height = row_width
+
+    # 生成 y 坐标网格
+    y_indices = np.arange(height)
+    alpha = 1 - np.abs(y_indices - middle_line_index) / middle_line_index
+
+    # 扩展为 640xH 的渐变矩阵
+    alpha_matrix = np.tile(alpha, (width, 1)).T  # 转置为 HxW
+    alpha_matrix = (alpha_matrix * 255).astype(np.uint8)
+
+    # 创建透明模板图像 (RGBA)
+    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    img.putalpha(Image.fromarray(alpha_matrix, mode='L'))
+    img.save(template_path)
+
+# Crop the frames
+def crop_frames(frame_files, output_pattern, row_width, crop_offset):
+    for idx, frame_path in enumerate(frame_files):
+        with Image.open(frame_path) as img:
+            # 裁剪区域 (left, upper, right, lower)
+            box = (0, crop_offset, 640, crop_offset + row_width)
+            cropped = img.crop(box)
+            cropped.save(output_pattern % idx)
+
+# 应用透明度模板
+def apply_alpha_mask(pixel_paths, template_path, output_pattern):
+    # 加载模板并确保为灰度图（L 模式）
+    tpl_rgba = Image.open(template_path).convert("RGBA")
+    template = tpl_rgba.getchannel("A")  # 或 tpl_rgba.split()[3]
+
+    for pixel_path in pixel_paths:
+        # 解析帧编号（假设文件名如 "24-05-SZ-CG-0001-04_P012.png"）
+        frame_idx = int(pixel_path.stem.split("_")[-1][1:])
+
+        # 加载原图并确保为 RGBA 模式
+        with Image.open(pixel_path).convert("RGBA") as img:
+
+            # 分离原始 RGB 和 Alpha 通道
+            rgb = img.convert("RGB")  # 丢弃原始 Alpha，仅保留 RGB
+
+            # 将模板的灰度作为新 Alpha，合并到原始 RGB
+            new_alpha = np.array(template)
+            new_img = Image.fromarray(
+                np.dstack([np.array(rgb), new_alpha]),  # 堆叠 R, G, B, A
+                mode="RGBA"
+            )
+
+            # 保存结果
+            new_img.save(output_pattern % frame_idx, "PNG")
+
+def process_file(full_run_with_extension, height_file, pic_path, target_video_path, target_height_path, model_path):
     # Remove file extension
     run = os.path.basename(full_run_with_extension).split('.')[0]
     full_run = os.path.normpath(os.path.join(os.path.dirname(full_run_with_extension), run))
     os.makedirs(pic_path, exist_ok=True)
+
+    FFMPEG = Path(model_path) / "ffmpeg.exe"
+    FFPROBE = Path(model_path) / "ffprobe.exe"
 
     line = f"Processing started for {run}"
     print(line)
@@ -49,7 +106,7 @@ def process_file(full_run_with_extension, height_file, pic_path, target_video_pa
             os.remove(target_height_path)
 
         run_command(
-            ['ffmpeg', '-i', full_run_with_extension, '-vf', 'reverse', target_video_path]
+            [FFMPEG, '-i', full_run_with_extension, '-vf', 'reverse', target_video_path]
         )
         reversed_heights = heights[::-1]
         with open(target_height_path, 'w') as rf:
@@ -61,12 +118,12 @@ def process_file(full_run_with_extension, height_file, pic_path, target_video_pa
     # Extract frames from video
     full_run_with_extension = target_video_path
     run_command(
-        ['ffmpeg', '-i', full_run_with_extension, f'{full_run}_frame%03d.png']
+        [FFMPEG, '-i', full_run_with_extension, f'{full_run}_frame%03d.png']
     )
 
     # Use ffprobe to get the number of frames
     ffprobe_output = subprocess.check_output(
-        ['ffprobe', '-v', 'error', '-count_frames', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_frames',
+        [FFPROBE, '-v', 'error', '-count_frames', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_frames',
          '-of', 'default=nokey=1:noprint_wrappers=1', target_video_path], creationflags=subprocess.CREATE_NO_WINDOW
     )
     frames = int(ffprobe_output.strip()) - 1
@@ -75,25 +132,32 @@ def process_file(full_run_with_extension, height_file, pic_path, target_video_pa
     row_width = 29
     template_path = os.path.join(os.path.dirname(full_run), run + '_template.png')
     middle_line_index = (row_width - 1) / 2
-    run_command(
-        ['magick', '-size', f'640x{row_width}', 'xc:none', '-channel', 'A', '-fx',
-         f'1-abs(j-{middle_line_index})/{middle_line_index}', template_path]
-    )
+    create_template(row_width, middle_line_index, template_path)
+
 
     # Crop the frame to preset height
-    crop_offset = int(240 - (row_width - 1) / 2)
-    run_command(
-        ['magick', f'{full_run}_frame*.png', '-crop', f'640x{row_width}+0+{crop_offset}', '+repage',
-         f'{full_run}_P%03d.png']
+    pattern = f"{run}_frame*.png"
+    frame_files = sorted(full_path.parent.glob(pattern))
+
+    crop_frames(
+        frame_files=frame_files,
+        output_pattern=f"{full_run}_P%03d.png",
+        row_width=row_width,
+        crop_offset=int(240 - (row_width - 1) // 2)
     )
+
     delete_file(f'{full_run}_frame*.png')
 
     # Apply alpha mask to each pixel pic
-    for frame in range(frames + 1):
-        run_command(
-            ['magick', f'{full_run}_P{frame:03d}.png', '-alpha', 'set', template_path,
-             '-compose', 'CopyOpacity', '-composite', f'{full_run}_A{frame:03d}.png']
-        )
+    pattern = f"{run}_P*.png"
+    pixel_paths = sorted(full_path.parent.glob(pattern))
+
+    apply_alpha_mask(
+        pixel_paths=pixel_paths,
+        template_path=template_path,
+        output_pattern=f"{full_run}_A%03d.png"
+    )
+
     delete_file(f'{full_run}_P*.png')
     delete_file(template_path)
 
@@ -114,30 +178,45 @@ def process_file(full_run_with_extension, height_file, pic_path, target_video_pa
         # Update the composite image to the new one
         composite_image = temp_composite
     # Save the final composite image
-    composite_image.save(f'{full_run}_temp_composite_A.png')
+    temp_composite_path = f"{full_run}_temp_composite_A.png"
+    composite_image.save(temp_composite_path)
 
     # Crop the raw spliced image
-    temp_composite_path = f"{full_run}_temp_composite_A.png"
     final_height = composite_image.height
     crop_height = final_height - 2 * splice_offset
-    run_command(
-        ['magick', temp_composite_path, '-crop', f'640x{crop_height}+0+{splice_offset}', '+repage',
-         temp_composite_path]
-    )
+    final_output_path = f"{full_run}_raw.png"
+
+    # 打开临时合成图像
+    with Image.open(temp_composite_path) as img:
+        # 执行裁剪 (left, upper, right, lower)
+        box = (0, splice_offset, 640, splice_offset + crop_height)
+        cropped = img.crop(box)
+
+        # 直接保存最终 raw 文件（跳过临时文件）
+        cropped.save(final_output_path, "PNG")
+
     shutil.move(temp_composite_path, f'{full_run}_raw.png')
     delete_file(f'{full_run}_A*.png')
 
     # resize and save the image
-    run_command(
-        ['magick', f'{full_run}_raw.png', '-alpha', 'off', '-resize', '640x1440!', f'{full_run}.png']
-    )
+    target_size = (640, 1440)
+    with Image.open(final_output_path) as img:
+        # 移除 Alpha 通道（转换为 RGB）
+        rgb_img = img.convert("RGB")
+
+        # 强制拉伸到目标尺寸（LANCZOS 重采样保持质量）
+        resized = rgb_img.resize(target_size, Image.Resampling.LANCZOS)
+
+        # 保存最终结果
+        resized.save(f"{full_run}.png", "PNG", optimize=True, quality=95)
+        
     shutil.move(f'{full_run}.png', pic_path)
     delete_file(f'{full_run}_raw.png')
 
     line = f"Processing completed for {run}"
     print(line)
 
-def process_video_thread(video_path, height_path, projection_path, max_workers):
+def process_video_thread(video_path, height_path, projection_path, max_workers, model_folder):
     smoothed_height_path = os.path.join(height_path, 'smoothed')
     processed_height_path = os.path.join(height_path, 'processed')
 
@@ -169,7 +248,7 @@ def process_video_thread(video_path, height_path, projection_path, max_workers):
 
             target_video_path = os.path.join(processed_video_path, label + ".mp4")
             target_height_path = os.path.join(processed_height_path, label + ".txt")
-            tasks.append((file, height_file, projection_path, target_video_path, target_height_path))
+            tasks.append((file, height_file, projection_path, target_video_path, target_height_path, model_folder))
 
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             future_to_file = {executor.submit(process_file, *task): task[0] for task in tasks}
@@ -325,6 +404,8 @@ if __name__ == "__main__":
                         help='Path to the video folder')
     parser.add_argument('-d', '--height_folder', default='./heights/', type=str, required=False,
                         help='Path to the height folder')
+    parser.add_argument('-m', '--model_folder', default='./models/', type=str, required=False,
+                        help='Path to the model folder')
     parser.add_argument('-c', '--thread', default=5, type=int, required=False,
                         help='Number of cores used for parallel processing')
     parser.add_argument('-o', '--output_folder', default='./images/', type=str, required=False, help='Output folder')
@@ -336,4 +417,4 @@ if __name__ == "__main__":
 
     # 处理视频之前，先对高度信息文件进行筛选
     filter_heights(args.height_folder)
-    process_video_thread(args.video_folder, args.height_folder, args.output_folder, max_workers)
+    process_video_thread(args.video_folder, args.height_folder, args.output_folder, max_workers, args.model_folder)

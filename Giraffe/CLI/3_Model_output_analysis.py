@@ -207,6 +207,25 @@ def extract_plant_architecture_data(label_file):
 
     return tassel_height, processed_leaf_heights, above_ear_leaf_number, ear_height, ear_number, ear_heights
 
+def save_results_to_json(label, tassel_height, processed_leaf_heights, ear_heights, visualize_path):
+
+    # 准备保存 JSON 的路径
+    output_path = os.path.join(visualize_path, f"{label}.json")
+    if tassel_height:
+        tassel_height = [tassel_height]
+    # 构造 JSON 数据
+    height_data = {
+        "tassel_heights": tassel_height,  # 穗部高度
+        "ear_heights": ear_heights,        # 穗高度
+        "leaf_heights": processed_leaf_heights,  # 叶片高度列表
+    }
+
+    # 将数据保存为 JSON 文件
+    try:
+        with open(output_path, 'w') as json_file:
+            json.dump(height_data, json_file, indent=4)
+    except:
+        return None
 
 #################################################################################
 # 主程序
@@ -232,11 +251,15 @@ if __name__ == "__main__":
 
     # 创建一个新的工作表
     output_file = os.path.join(args.output_path, 'plant_architecture.xlsx')
+    visualize_path = os.path.join(args.output_path, 'visualize/')
+    os.makedirs(visualize_path, exist_ok=True)
+
     wb = Workbook()
 
     ws = wb.active
     ws.append(["Labels", "Plant_Height", "Height_of_Each_Above_ear_Leaf", "Above_ear_Leaf_Number",
                "Ear_Height", "Ear_Number"])
+
 
     # 定义高度和多边形图像文件夹路径
     label_files = sorted(glob.glob(os.path.join(args.label_folder, '*.txt')))
@@ -252,6 +275,8 @@ if __name__ == "__main__":
         # 调用分析函数提取表型数据
         tassel_height, heights_of_each_above_ear_Leaf, above_ear_leaf_number, ear_height, ear_number, ear_heights \
             = extract_plant_architecture_data(label_file)
+
+        save_results_to_json(label, tassel_height, heights_of_each_above_ear_Leaf, ear_heights, visualize_path)
 
         # 将数据转换为真实值
         if tassel_height:
