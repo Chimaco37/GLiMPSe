@@ -168,6 +168,7 @@ python 2_Video_process.py -v VIDEO_FOLDER -d HEIGHT_FOLDER -c CORES_NUMBER -o OU
 optional arguments:
   -v: Path to the original video folder (default is ./videos/)
   -h: Path to the height folder (default is ./heights/)
+  -m: Path to the model folder (default is ./models/)
   -c: Number of cores used for parallel processing (default is 5)
   -o: Output image folder (default is ./images/)
 ```
