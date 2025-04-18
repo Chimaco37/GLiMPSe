@@ -146,8 +146,6 @@
   5. The system then runs inference and outputs the phenotypic measurements.
 
 ## GUI Usage
-**Important: Before executing the scripts, please ensure that you have installed ffmpeg (version 7.0.1) and ImageMagick (version 7.1.1), and that both are added to your system’s PATH.**
-
 ### 🦒The 'Giraffe' System
 - **Model training:**
 
@@ -163,7 +161,7 @@ yolo segment predict model=Plant_architecture.pt source=./images save_txt=True s
 
 - **Video Preprocessing:**
 ```
-python 2_Video_process.py -v VIDEO_FOLDER -d HEIGHT_FOLDER -m MODEL_FOLDER-c CORES_NUMBER -o OUTPUT_FOLDER
+python 2_Video_process.py -v VIDEO_FOLDER -d HEIGHT_FOLDER -m MODEL_FOLDER -c CORES_NUMBER -o OUTPUT_FOLDER
 
 optional arguments:
   -v: Path to the original video folder (default is ./videos/)
