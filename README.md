@@ -194,7 +194,7 @@ yolo segment train data=/path/to/your/leaf/dataset/data.yaml model=model=/path/t
 - **Marker Segmentation:**
 
 ```
-yolo task=segment mode=predict model=/path/to/marker.pt source=/path/to/your/original/image/folder conf=0.5 show_labels=True show_conf=False boxes=True max_det=4 save_txt=True device=0 name=marker
+yolo task=segment mode=predict model=/path/to/marker.pt source=/path/to/your/original/image/folder conf=0.5 show_labels=True show_conf=False show_boxes=True max_det=4 save_txt=True device=0 name=marker
 ```
 - **Image Undistortion:**
 ```
@@ -207,7 +207,7 @@ optional arguments:
 ```
 - **Marker Segmentation:**
 ```
-yolo task=segment mode=predict model=/path/to/leaf.pt source=/path/to/your/undistorted/image/folder conf=0.5 show_labels=True show_conf=False boxes=True max_det=1 save_txt=True device=0 name=leaf
+yolo task=segment mode=predict model=/path/to/leaf.pt source=/path/to/your/undistorted/image/folder conf=0.5 show_labels=True show_conf=False show_boxes=True max_det=1 save_txt=True device=0 name=leaf
 ```
 - **Leaf width calculation:**
 ```
