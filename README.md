@@ -156,7 +156,7 @@ yolo segment train data=/path/to/your/plant_architecture/dataset/data.yaml model
 - **Model inference:**
 
 ```bash
-yolo segment predict model=Plant_architecture.pt source=./images save_txt=True save=True show_labels=True show_conf=False show_boxes=True conf=0.5 iou=0.5 imgsz=1440 agnostic_nms=True retina_masks=True device=0 name=prediction project=/directory/to/save/results
+yolo segment predict model=Plant_architecture.pt source=/path/to/your/image save_txt=True save=True show_labels=True show_conf=False show_boxes=True conf=0.5 iou=0.5 imgsz=1440 agnostic_nms=True retina_masks=True device=0 name=prediction project=/directory/to/save/results
 ```
 
 - **Video Preprocessing:**
@@ -194,7 +194,7 @@ yolo segment train data=/path/to/your/leaf/dataset/data.yaml model=model=/path/t
 - **Marker Segmentation:**
 
 ```
-yolo task=segment mode=predict model=/path/to/marker.pt source=/path/to/your/original/image/folder conf=0.5 show_labels=True show_conf=False show_boxes=True max_det=4 save_txt=True device=0 name=marker
+yolo segment predict model=/path/to/marker.pt source=/path/to/your/original/image/ conf=0.5 show_labels=True show_conf=False show_boxes=True max_det=4 save_txt=True device=0 name=marker
 ```
 - **Image Undistortion:**
 ```
@@ -207,7 +207,7 @@ optional arguments:
 ```
 - **Marker Segmentation:**
 ```
-yolo task=segment mode=predict model=/path/to/leaf.pt source=/path/to/your/undistorted/image/folder conf=0.5 show_labels=True show_conf=False show_boxes=True max_det=1 save_txt=True device=0 name=leaf
+yolo segment predict model=/path/to/leaf.pt source=/path/to/your/undistorted/image conf=0.5 show_labels=True show_conf=False show_boxes=True max_det=1 save_txt=True device=0 name=leaf
 ```
 - **Leaf width calculation:**
 ```
