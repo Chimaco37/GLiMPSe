@@ -7,14 +7,11 @@ import argparse
 import glob
 
 if __name__ == "__main__":
-    # 创建解析器
     parser = argparse.ArgumentParser(description="Analyze leaf segmentation model output data")
 
-    # 添加参数
     parser.add_argument('-l', '--label_folder', default='./leaf/labels/', type=str, required=False, help='Path to the label folder')
     parser.add_argument('-o', '--output_path', default='./', type=str, required=False, help='Output file path')
 
-    # 解析参数
     args = parser.parse_args()
 
     LABELPATHS = sorted(glob.glob(args.label_folder + '*.txt'))
@@ -39,7 +36,6 @@ if __name__ == "__main__":
 
         polygon = np.array(polygon, dtype=np.float32)
 
-        # 当检测到了叶片的情况下再计算叶宽，否则标为缺失
         if not polygon.any():
             leaf_width = 'NA'
 
@@ -47,7 +43,6 @@ if __name__ == "__main__":
             (cx, cy), (l, w), theta = cv2.minAreaRect(polygon)
             cutting_line = LineString([(cx - 1, cy), (cx + 1, cy)])
 
-            # 获取线段与多边形边界的交点
             leaf_polygon = Polygon(polygon)
             intersection_line = cutting_line.intersection(leaf_polygon)
 
