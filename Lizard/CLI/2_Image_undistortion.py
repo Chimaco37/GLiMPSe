@@ -12,7 +12,6 @@ def undistort_images(originalimg, labelpaths, transformedpath):
 
         label = labelpath.split("/")[-1].split(".txt")[0]
         img = cv2.imread(os.path.join(originalimg, label + '.jpg'))
-        # 指定图像尺寸，方便将小数左边转换为整数
         IMGWIDTH = img.shape[1]
         IMGHEIGHT = img.shape[0]
 
@@ -20,7 +19,7 @@ def undistort_images(originalimg, labelpaths, transformedpath):
 
         for line in lines:
             line = line.strip().split(' ')
-            coordinates = np.array([float(coord) for coord in line[1:]]).reshape(-1, 2)  # 通过reshape的方式来区分获取每个点的X,y值
+            coordinates = np.array([float(coord) for coord in line[1:]]).reshape(-1, 2) 
 
             all_coordinates.extend(coordinates)
 
@@ -33,7 +32,7 @@ def undistort_images(originalimg, labelpaths, transformedpath):
         left_bottom = all_coordinates[np.argmin(np.diff(all_coordinates, axis=1))]
         right_top = all_coordinates[np.argmax(np.diff(all_coordinates, axis=1))]
 
-        side1 = np.linalg.norm(left_top - right_top)      #获取长短边
+        side1 = np.linalg.norm(left_top - right_top)    
         side2 = np.linalg.norm(left_top - left_bottom)
 
         corner_points = np.array([left_top, right_top, right_bottom, left_bottom])
@@ -43,7 +42,6 @@ def undistort_images(originalimg, labelpaths, transformedpath):
 
         transformed = four_point_transform(img, corner_points.reshape(4, 2))
 
-        # 根据长短来确定长短边
         if side1 > side2:
            transformed = cv2.rotate(transformed,cv2.ROTATE_90_CLOCKWISE)
         transformed = cv2.resize(transformed, (1250, 500))
